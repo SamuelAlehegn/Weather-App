@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Application</title>
+  </head>
+  <body>
+<div class="container text-center">
+  <h1>Weather Application</h1>
+  <div class="search-bar">
+    <form (ngSubmit)="onSubmit()">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter city"
+          [(ngModel)]="city"
+          name="city"
+          required
+        />
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+    <div class="content">
+      <div class="card text-white bg-secondary m-5" style="width: 300px">
+        <div class="card-header text-center">
+          <h2>{{ inputCity }}</h2>
+          <p><img src="{{ iconUrl }}" alt="weather  image" /></p>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Temprature: {{ temp }} °C</p>
+          <p class="card-text">Feel like: {{ feelsLikeTemp }} °C</p>
+          <p class="card-text">Pressure: {{ pressure }} hPa</p>
+          <p class="card-text">Humidity: {{ humidity }} %</p>
+          <p class="card-text">Summary: {{ summary }}</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
