@@ -4,28 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+      .container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+      .card {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+      }
+      .unit-selector {
+        margin-top: 1rem;
+      }
+    </style>
   </head>
   <body>
-<div class="container text-center">
-  <h1>Weather Application</h1>
-  <div class="search-bar">
-    <form (ngSubmit)="onSubmit()">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Enter city"
-          [(ngModel)]="city"
-          name="city"
-          required
-        />
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="submit">Search</button>
+    <div class="container text-center">
+      <h1>Weather Application</h1>
+      <div class="search-bar">
+        <form (ngSubmit)="onSubmit()">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter city"
+              [(ngModel)]="city"
+              name="city"
+              required
+            />
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
+        <div class="unit-selector">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-secondary" (click)="setUnit('si')">SI (K)</button>
+            <button type="button" class="btn btn-secondary" (click)="setUnit('metric')">Metric (°C)</button>
+            <button type="button" class="btn btn-secondary" (click)="setUnit('imperial')">Imperial (°F)</button>
+          </div>
         </div>
       </div>
-    </form>
-  </div>
-</div>
+    </div>
 
     <div class="content">
       <div class="card text-white bg-secondary m-5" style="width: 300px">
@@ -34,8 +55,8 @@
           <p><img src="{{ iconUrl }}" alt="weather  image" /></p>
         </div>
         <div class="card-body">
-          <p class="card-text">Temprature: {{ temp }} °C</p>
-          <p class="card-text">Feel like: {{ feelsLikeTemp }} °C</p>
+          <p class="card-text">Temperature: {{ temp }} {{ unit }}</p>
+          <p class="card-text">Feels Like: {{ feelsLikeTemp }} {{ unit }}</p>
           <p class="card-text">Pressure: {{ pressure }} hPa</p>
           <p class="card-text">Humidity: {{ humidity }} %</p>
           <p class="card-text">Summary: {{ summary }}</p>

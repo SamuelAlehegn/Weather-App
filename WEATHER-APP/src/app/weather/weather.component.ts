@@ -14,19 +14,19 @@ export class WeatherComponent implements OnInit {
   humidity: number = 0;
   summary: string = '';
   iconUrl: string = '';
-  city: any = 'paris';
-  unit: string = 'metric';
-  inputCity: string = "paris";
-
+  city: string = 'paris';
+  units: string = 'standard';
+  inputCity: string = 'paris'; // default
+  unit: string = ' K';
 
   constructor(private weatherService: WeatherService) {}
 
   ngOnInit(): void {
+    this.getWeatherData();
+  }
 
-    this.inputCity = this.onSubmit();
-    console.log(this.inputCity)
-
-    this.weatherService.getWeather(this.inputCity, this.unit).subscribe({
+  getWeatherData(): void {
+    this.weatherService.getWeather(this.city, this.units).subscribe({
       next: (res: any) => {
         console.log(res);
         this.weather = res;
@@ -42,13 +42,47 @@ export class WeatherComponent implements OnInit {
           '@2x.png';
       },
       error: (error: { message: any }) => console.log(error.message),
-      complete: () => console.info('API  call completed'),
+      complete: () => console.info('API call completed'),
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.city) {
-      return this.city;
+      this.inputCity = this.city;
+      this.getWeatherData();
     }
+  }
+
+  setUnit(unit: string): void {
+  
+    if (unit === 'si') {
+      this.unit = ' K';
+      this.units = 'standard';
+    } else if (unit === 'metric') {
+      this.unit = ' °C';
+      this.units = 'metric';
+    } else if (unit === 'imperial') {
+      this.unit = ' °F';
+      this.units = 'imperial';
+    } else {
+      this.unit = ' K';
+      this.units = 'standard';
+    }
+
+    this.getWeatherData();
+  }
+
+  resetForm(): void {
+    this.inputCity = '';
+    this.city = '';
+    this.unit = ' ';
+    this.units = 'standard';
+    this.weather = null;
+    this.temp = 0;
+    this.feelsLikeTemp = 0;
+    this.pressure = 0;
+    this.humidity = 0;
+    this.summary = '';
+    this.iconUrl = '';
   }
 }
