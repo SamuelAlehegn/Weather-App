@@ -27,7 +27,7 @@ export class WeatherComponent implements OnInit {
     if (navigator.geolocation) {
       this.getLocationWeather();
     } else {
-      this.setDefaultCityWeather;
+      this.setDefaultCityWeather();
     }
   }
 
