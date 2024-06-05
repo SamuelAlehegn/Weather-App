@@ -14,15 +14,21 @@ export class WeatherComponent implements OnInit {
   humidity: number = 0;
   summary: string = '';
   iconUrl: string = '';
-  city: string = 'paris';
+  city: string = '';
   units: string = 'standard';
-  inputCity: string = 'paris'; // default
+  inputCity: string = '';
   unit: string = ' K';
+  latitude: number = 0;
+  longitude: number = 0;
 
   constructor(private weatherService: WeatherService) {}
 
   ngOnInit(): void {
-    this.getWeatherData();
+    if (navigator.geolocation) {
+      this.getLocationWeather();
+    } else {
+      this.setDefaultCityWeather;
+    }
   }
 
   getWeatherData(): void {
@@ -54,7 +60,6 @@ export class WeatherComponent implements OnInit {
   }
 
   setUnit(unit: string): void {
-  
     if (unit === 'si') {
       this.unit = ' K';
       this.units = 'standard';
@@ -84,5 +89,44 @@ export class WeatherComponent implements OnInit {
     this.humidity = 0;
     this.summary = '';
     this.iconUrl = '';
+  }
+
+  getLocationWeather() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+          // this.getCityByCoordinates(); 
+
+          this.weatherService
+            .getCurrentWeather(this.latitude, this.longitude)
+            .subscribe({
+              next: (res: any) => {
+                console.log("location", res); 
+                this.inputCity = res[0].state;
+                this.city = this.inputCity;
+                this.getWeatherData();
+              },
+              error: (error: { message: any }) => console.log(error.message),
+              complete: () => console.info('API call completed'),
+            });
+          
+        },
+        (error) => {
+          console.log('Error occurred while retrieving location:', error);
+          this.setDefaultCityWeather();
+        }
+      );
+    } else {
+      console.log('Geolocation is not supported by this browser.');
+      this.setDefaultCityWeather();
+    }
+  }
+
+  setDefaultCityWeather() {
+    this.city = 'paris'; // Default city if the user does not grant access to their location
+    this.inputCity = 'paris';
+    this.getWeatherData();
   }
 }
