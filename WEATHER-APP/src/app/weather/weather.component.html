@@ -4,24 +4,79 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Application</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <style>
+      body {
+        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
       .container {
         padding-top: 2rem;
         padding-bottom: 2rem;
       }
-      .card {
-        margin-top: 2rem;
+      .header-bg {
+        background: #4e73df;
+        color: #fff;
+        border-radius: 10px;
+        padding: 1.5rem 0 1rem 0;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(78, 115, 223, 0.15);
+      }
+      .search-bar {
         margin-bottom: 2rem;
       }
       .unit-selector {
         margin-top: 1rem;
       }
+      .unit-selector .btn-group .btn {
+        border-radius: 20px;
+        margin: 0 2px;
+      }
+      .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+      }
+      .card {
+        margin: 0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        border-radius: 20px;
+        background: #343a40;
+        width: 340px;
+      }
+      .card-header {
+        background: #6c757d;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        padding-bottom: 0.5rem;
+      }
+      .card-header h2 {
+        margin-bottom: 0.5rem;
+      }
+      .card-body {
+        padding: 1.5rem;
+      }
+      .card-text {
+        margin-bottom: 0.7rem;
+        font-size: 1.1rem;
+      }
+      img {
+        width: 60px;
+        height: 60px;
+      }
     </style>
   </head>
   <body>
     <div class="container text-center">
-      <h1>Weather Application</h1>
+      <div class="header-bg">
+        <h1>Weather Application</h1>
+      </div>
       <div class="search-bar">
         <form (ngSubmit)="onSubmit()">
           <div class="input-group mb-3">
@@ -40,19 +95,37 @@
         </form>
         <div class="unit-selector">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-secondary" (click)="setUnit('si')">SI (K)</button>
-            <button type="button" class="btn btn-secondary" (click)="setUnit('metric')">Metric (°C)</button>
-            <button type="button" class="btn btn-secondary" (click)="setUnit('imperial')">Imperial (°F)</button>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              (click)="setUnit('si')"
+            >
+              SI (K)
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              (click)="setUnit('metric')"
+            >
+              Metric (°C)
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              (click)="setUnit('imperial')"
+            >
+              Imperial (°F)
+            </button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="content">
-      <div class="card text-white bg-secondary m-5" style="width: 300px">
+      <div class="card text-white bg-secondary">
         <div class="card-header text-center">
           <h2>{{ inputCity }}</h2>
-          <p><img src="{{ iconUrl }}" alt="weather  image" /></p>
+          <p><img src="{{ iconUrl }}" alt="weather image" /></p>
         </div>
         <div class="card-body">
           <p class="card-text">Temperature: {{ temp }} {{ unit }}</p>
